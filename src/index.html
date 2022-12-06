@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <title>Document</title>
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+        
+        table,
+        th,
+        td {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <h2 x-data="{ message: 'Sample Prisma and AlpineJS app' }" x-text="message"></h2>
+    <h2>Authors:</h2>
+    <div x-cloak x-data="{authors: [], 'isLoading': true}" x-init="fetch('http://localhost:8000/api/authors').then(response => response.json()).then(response => { authors = response; isLoading = false; console.log(response); })">
+        <h3 x-show="isLoading">Loading...</h3>
+        <table x-show="!isLoading" bordered>
+            <tr>
+                <th>Author ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+            </tr>
+            <template x-for="author in authors" :key="author.id">
+          <tr>
+            <td x-text="author.id"></td>
+            <td x-text="author.firstName"></td>
+            <td x-text="author.lastName"></td>
+          </tr>
+        </template>
+        </table>
+    </div>
+
+    <h2>Books:</h2>
+    <div x-cloak x-data="{books: [], 'isLoading': true}" x-init="fetch('http://localhost:8000/api/books').then(response => response.json()).then(response => { books = response; isLoading = false; console.log(response); })">
+        <h3 x-show="isLoading">Loading...</h3>
+        <table x-show="!isLoading" bordered>
+            <tr>
+                <th>Book ID</th>
+                <th>Title</th>
+                <th>Date published</th>
+                <th>Is fiction?</th>
+            </tr>
+            <template x-for="book in books" :key="book.id">
+          <tr>
+            <td x-text="book.id"></td>
+            <td x-text="book.title"></td>
+            <td x-text="book.datePublished"></td>
+            <td x-text="book.isFiction"></td>
+          </tr>
+        </template>
+        </table>
+    </div>
+</body>
+
+</html>
